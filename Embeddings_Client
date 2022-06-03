@@ -1,0 +1,50 @@
+# syntax=docker/dockerfile:1
+#
+# =========================================
+# | BRAND RECOGNITION EMBEDDING GENERATOR |
+# =========================================
+# 
+# This Dockerfile is used to build embedding generator for Brand Recogntion.
+# 
+# Quick Command to Build Embedding Generator
+# ==========================================
+# docker build -t brand_recognition:embeddings -f Embeddings_Client .
+#
+# Quick Command to Run Embedding Generator
+# ========================================
+# docker run --rm -it
+#     -v [ Required: Your Path to Video File ]:/video.mp4 \
+#     -v [ Required: Your Directory Path to Save Generated / Updated Embeddings ]:/Output \
+#     -v [ Required / Optional : Your Path to Existing Binary Embedding File in Case of Update ]:/Embeddings:ro \
+#     brand_recognition:embeddings [ Your Arguments ]
+#
+# Main Build Script
+# =================
+#
+# Pull ubuntu Image from DockerHub
+FROM ubuntu@sha256:b5a61709a9a44284d88fb12e5c48db0409cfad5b69d4ff8224077c57302df9cf
+# Install Necessary Packages
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update
+RUN apt-get install -y libgl1-mesa-dev
+RUN apt-get install -y libglib2.0-0
+RUN apt-get install -y libgtk2.0-dev
+RUN apt-get install -y python3
+RUN apt-get install -y python3-pip
+RUN pip3 install pillow
+RUN pip3 install grpcio
+RUN pip3 install grpcio-tools
+RUN pip3 install tqdm
+RUN pip3 install opencv-python-headless
+RUN pip3 install opencv-contrib-python-headless
+# Copy Resources to Respective Directories
+RUN mkdir /Output
+WORKDIR /home
+COPY ./Server/communication_pb2_grpc.py ./communication_pb2_grpc.py
+COPY ./Server/communication_pb2.py ./communication_pb2.py
+COPY ./Server/inference_client.py ./inference_client.py
+# Copy Client File for Execution
+COPY ./Clients/embeddings_client.py ./embeddings_client.py
+# Set Permissions & Create Execution Entrypoint
+RUN chmod 777 ./embeddings_client.py
+ENTRYPOINT [ "./embeddings_client.py" ]
