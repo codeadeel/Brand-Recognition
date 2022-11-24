@@ -10,6 +10,7 @@
 
 # %%
 # Importing Libraries
+import os
 import gdown
 
 # %%
@@ -22,6 +23,10 @@ dlinks = {
     'Embeddings' : 'https://drive.google.com/file/d/1pvLn0HNLGaTRJhI7mlOs1izSNdMQFV7b/view?usp=sharing' 
 }
 
+alternateDlinks = {
+    'resnet18-f37072fd.pth' : 'https://drive.google.com/uc?id=1hAHUpcpekAWKp2IHGA7dUmA14xvN42Mr&confirm=t&uuid=421a53a6-b82f-4927-a5cc-ac9eec0a84c9'
+}
+
 # %%
 # Download Execution
 
@@ -29,3 +34,6 @@ download_addr = '/'.join(__file__.split('/')[:-1]) + '/Resources'
 
 for keys, vals in dlinks.items():
     gdown.download(vals, f'{download_addr}/{keys}', quiet=False, fuzzy=True)
+    if not os.path.exists(f'{download_addr}/{keys}'):
+        gdown.download(alternateDlinks[keys], f'{download_addr}/{keys}', quiet=False)
+        
