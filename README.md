@@ -1,4 +1,5 @@
 # Brand Recognition
+![DockerHub CI][dockerBadge]
 
 ![Brand Recognition Macro Architecture][macro_architecture]
 
@@ -8,4 +9,5 @@ The model used in this architecture is ***ResNet-18***, on ***Pytorch*** framewo
 
 ##### For extensive documentation, please check [***wiki***](https://github.com/codeadeel/Brand-Recognition/wiki).
 
+[dockerBadge]: https://github.com/codeadeel/Brand-Recognition/actions/workflows/dockerPush.yml/badge.svg?event=push
 [macro_architecture]: ./MarkDown-Data/macro_architecture.jpg
