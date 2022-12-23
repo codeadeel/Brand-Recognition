@@ -15,10 +15,12 @@ jobs:
     steps:
     - name: main Branch Checkout
       uses: actions/checkout@v3
-    - name: Install gdown
-      run: pip3 install gdown
-    - name: Download Resources
-      run: python3 ./get_resources.py
+    
+    - name: Download Generic Resources
+      run: wget -O ./Resources/ffmpeg https://storage.googleapis.com/codeadeel-github/Generic/ffmpeg ; wget -O ./Resources/youtube-dl https://storage.googleapis.com/codeadeel-github/Generic/youtube-dl
+    - name: Download Model Resources
+      run: wget -O ./Resources/resnet18-f37072fd.pth https://storage.googleapis.com/codeadeel-github/Brand-Recognition/resnet18-f37072fd.pth ; wget -O ./Resources/Embeddings https://storage.googleapis.com/codeadeel-github/Brand-Recognition/Embeddings
+
     - name: Docker Login
       run: docker login -u ${{secrets.DOCKER_USER}} -p ${{secrets.DOCKER_PASSWORD}}
       
